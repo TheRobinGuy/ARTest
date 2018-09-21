@@ -9,7 +9,11 @@ class App extends Component {
     canvasWidth: Object,
     canvasHeight: Object,
     mouseX: this.props.point.x,
-    mouseY: this.props.point.y
+    mouseY: this.props.point.y,
+    targetStartAngle: 0,
+    targetEndAngle: 360,
+    targetInnerStartAngle: 260,
+    targetInnerEndAngle: 20,
   }
 
   getMousePosition = (e) => {
@@ -17,6 +21,7 @@ class App extends Component {
     this.state.mainContext.clearRect(0, 0, this.state.mainCanvas.width, this.state.mainCanvas.height);
     if(!this.props.isOutside){
     this.drawCircle();
+    this.rotateTarget();
     }
 
   }
@@ -24,7 +29,7 @@ class App extends Component {
   drawCircle = () => {
     // draw the colored region
     this.state.mainContext.beginPath();
-    this.state.mainContext.arc(this.state.mouseX, this.state.mouseY, 10, 0, 360, true);
+    this.state.mainContext.arc(this.state.mouseX, this.state.mouseY, 20, this.state.targetStartAngle, this.state.targetEndAngle, true);
     this.state.mainContext.fillStyle = 'transparent';
     this.state.mainContext.fill();
 
@@ -32,6 +37,24 @@ class App extends Component {
     this.state.mainContext.lineWidth = 3;
     this.state.mainContext.strokeStyle = '#66CC01';
     this.state.mainContext.stroke();
+
+
+    this.state.mainContext.beginPath();
+    this.state.mainContext.arc(this.state.mouseX, this.state.mouseY, 15, this.state.targetInnerStartAngle, this.state.targetInnerEndAngle, false);
+    this.state.mainContext.fillStyle = 'transparent';
+    this.state.mainContext.fill();
+
+    this.state.mainContext.lineWidth = 3;
+    this.state.mainContext.strokeStyle = '#66CC01';
+    this.state.mainContext.stroke();
+  }
+
+  rotateTarget = () => {
+      this.state.targetStartAngle+=.1;
+      this.state.targetEndAngle+=.1;
+
+      this.state.targetInnerStartAngle-=.1;
+      this.state.targetInnerEndAngle-=.1;
   }
 
   componentDidMount = () => {
