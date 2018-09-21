@@ -78,9 +78,9 @@ class App extends Component {
 
   trackColors = () => {
     this.state.tracker = new window.tracking.ObjectTracker('face');
-    this.tracker.setInitialScale(4);
-    this.tracker.setStepSize(2);
-    this.tracker.setEdgesDensity(0.1);
+    this.state.tracker.setInitialScale(4);
+    this.state.tracker.setStepSize(2);
+    this.state.tracker.setEdgesDensity(0.1);
     this.state.tracker.on('track', (e) => {
       if (e.data.lentgh === 0) {
         // No colours to track!
@@ -91,7 +91,7 @@ class App extends Component {
         })
       }
     });
-    window.tracking.track('#video', this.state.tracker, { camera: true });
+    window.tracking.track(this.refs.cameraOutput, this.state.tracker, { camera: true });
   }
 
   componentDidMount = () => {
@@ -102,6 +102,7 @@ class App extends Component {
     this.state.canvasWidth = this.state.mainCanvas.width;
     this.state.canvasHeight = this.state.mainCanvas.height;
     this.useCamera();
+    this.trackColors();
   }
 
   render() {
