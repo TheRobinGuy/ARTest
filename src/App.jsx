@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
+import Camera from './Camera/camera';
 
 class App extends Component {
 
@@ -71,12 +72,13 @@ class App extends Component {
 
   render() {
     return (
+      <Camera>
         <div onMouseOver={this.getMousePosition} className="App">
           <p>Mouse : {this.state.mouseX}, {this.state.mouseY}</p>
-          <canvas id="canvas">
-
-          </canvas>
+          <video ref="cameraOutput" width="320" height="240" preload autoPlay loop muted></video>
+          <canvas id="canvas"></canvas>
         </div>
+      </Camera>
     );
   }
 }
