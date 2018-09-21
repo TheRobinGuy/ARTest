@@ -17,16 +17,19 @@ class App extends Component {
   }
 
   getMousePosition = (e) => {
-    this.setState({ mouseX: this.props.point.x, mouseY: this.props.point.y});
+    setInterval(() => {
+    this.setState({ mouseX: this.props.point.x + 4, mouseY: this.props.point.y - 24});
     this.state.mainContext.clearRect(0, 0, this.state.mainCanvas.width, this.state.mainCanvas.height);
     if(!this.props.isOutside){
     this.drawCircle();
     this.rotateTarget();
     }
+  }, 20);
 
   }
 
   drawCircle = () => {
+    //Outer circle
     // draw the colored region
     this.state.mainContext.beginPath();
     this.state.mainContext.arc(this.state.mouseX, this.state.mouseY, 20, this.state.targetStartAngle, this.state.targetEndAngle, true);
@@ -38,7 +41,7 @@ class App extends Component {
     this.state.mainContext.strokeStyle = '#66CC01';
     this.state.mainContext.stroke();
 
-
+    //Inner circle
     this.state.mainContext.beginPath();
     this.state.mainContext.arc(this.state.mouseX, this.state.mouseY, 15, this.state.targetInnerStartAngle, this.state.targetInnerEndAngle, false);
     this.state.mainContext.fillStyle = 'transparent';
@@ -68,7 +71,7 @@ class App extends Component {
 
   render() {
     return (
-        <div onMouseMove={this.getMousePosition} className="App">
+        <div onMouseOver={this.getMousePosition} className="App">
           <p>Mouse : {this.state.mouseX}, {this.state.mouseY}</p>
           <canvas id="canvas">
 
