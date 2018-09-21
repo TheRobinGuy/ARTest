@@ -24,7 +24,7 @@ class App extends Component {
   drawCircle = () => {
     // draw the colored region
     this.state.mainContext.beginPath();
-    this.state.mainContext.arc(this.state.mouseX, this.state.mouseY, 10, 0, 2 * Math.PI, true);
+    this.state.mainContext.arc(this.state.mouseX, this.state.mouseY, 10, 0, 360, true);
     this.state.mainContext.fillStyle = 'transparent';
     this.state.mainContext.fill();
 
@@ -36,6 +36,8 @@ class App extends Component {
 
   componentDidMount = () => {
     this.state.mainCanvas = document.getElementById("canvas");
+    this.state.mainCanvas.width = window.innerWidth;
+    this.state.mainCanvas.height = window.innerHeight;
     this.state.mainContext = this.state.mainCanvas.getContext("2d");
     this.state.canvasWidth = this.state.mainCanvas.width;
     this.state.canvasHeight = this.state.mainCanvas.height;
