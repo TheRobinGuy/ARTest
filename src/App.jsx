@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 require('tracking')
-require('tracking/build/data/face')
+require('tracking/build/data/eye')
 
 class App extends Component {
 
@@ -19,9 +19,9 @@ class App extends Component {
     tracker: null,
   }
 
-  getMousePosition = (e) => {
+  getMousePosition = (e, xIn, yIn) => {
     setInterval(() => {
-      this.setState({ mouseX: this.props.point.x + 4, mouseY: this.props.point.y - 24 });
+      this.setState({ mouseX: xIn, mouseY: yIn });
       this.state.mainContext.clearRect(0, 0, this.state.mainCanvas.width, this.state.mainCanvas.height);
       if (!this.props.isOutside) {
         this.drawCircle();
@@ -76,8 +76,8 @@ class App extends Component {
     }
   }
 
-  trackColors = () => {
-    this.state.tracker = new window.tracking.ObjectTracker('face');
+  trackColors = (e) => {
+    this.state.tracker = new window.tracking.ObjectTracker('eye');
     this.state.tracker.setInitialScale(4);
     this.state.tracker.setStepSize(2);
     this.state.tracker.setEdgesDensity(0.1);
@@ -88,6 +88,7 @@ class App extends Component {
       else {
         e.data.forEach((color) => {
           console.log(color.x, color.y, color.height, color.width, color.color);
+          this.getMousePosition(e, color.x, color.y);
         })
       }
     });
@@ -107,7 +108,7 @@ class App extends Component {
 
   render() {
     return (
-        <div onMouseOver={this.getMousePosition} className="App">
+        <div onMouseOver={this.trackColors} className="App">
           <p>Mouse : {this.state.mouseX}, {this.state.mouseY}</p>
           <video style={{ position: "absolute", zIndex: -999 }} ref="cameraOutput" id="video" width="640" height="480" autoPlay loop muted></video>
           <canvas id="canvas"></canvas>
