@@ -60,6 +60,19 @@ class App extends Component {
       this.state.targetInnerEndAngle-=.1;
   }
 
+  useCamera = () => {
+    var video = document.getElementById('video');
+
+// Get access to the camera!
+if(navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+    // Not adding `{ audio: true }` since we only want video now
+    navigator.mediaDevices.getUserMedia({ video: true }).then(function(stream) {
+        video.src = window.URL.createObjectURL(stream);
+        video.play();
+    });
+}
+  }
+
   componentDidMount = () => {
     this.state.mainCanvas = document.getElementById("canvas");
     this.state.mainCanvas.width = window.innerWidth;
@@ -67,15 +80,15 @@ class App extends Component {
     this.state.mainContext = this.state.mainCanvas.getContext("2d");
     this.state.canvasWidth = this.state.mainCanvas.width;
     this.state.canvasHeight = this.state.mainCanvas.height;
+    this.useCamera();
   }
 
   render() {
     return (
         <div onMouseOver={this.getMousePosition} className="App">
           <p>Mouse : {this.state.mouseX}, {this.state.mouseY}</p>
-          <canvas id="canvas">
-
-          </canvas>
+          <video  style={{position: "absolute", zIndex: -999}} id="video" width="640" height="480" autoplay></video>
+          <canvas id="canvas"></canvas>
         </div>
     );
   }
