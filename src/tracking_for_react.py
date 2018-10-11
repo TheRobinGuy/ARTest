@@ -60,5 +60,6 @@ while True:
 		((x, y), radius) = cv2.minEnclosingCircle(c)
 		M = cv2.moments(c)
 		center = (int(M["m10"] / M["m00"]), int(M["m01"] / M["m00"]))
-		print center
+		print(center)
+		sys.stdout.flush()
 
